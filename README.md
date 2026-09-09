@@ -1,32 +1,32 @@
 # My Fav Albums
 
-Frontend em Next.js de uma seleção editorial de álbuns. O conteúdo mora no Hygraph: artistas, álbuns, capas, notas, resenhas e o que aparece em destaque na Home.
+A Next.js frontend for an editorial album selection. Content lives in Hygraph: artists, albums, covers, ratings, reviews, and which albums appear as featured on the Home page.
 
-Este repositório é o projeto da **Hygraph Developer Certification**. Ele demonstra schema no Hygraph, relação Artist → Album, Content API GraphQL, estágios DRAFT vs PUBLISHED, localização de campos, e Content Federation com a API REST do MusicBrainz (faixas via Remote Source).
+This repository is the project for the **Hygraph Developer Certification**. It demonstrates a Hygraph schema, an Artist → Album relationship, the GraphQL Content API, DRAFT vs PUBLISHED stages, field localization, and Content Federation with the MusicBrainz REST API (tracklists via a Remote Source).
 
-O Next.js só consome o GraphQL do Hygraph. As faixas não vêm de uma chamada direta do app ao MusicBrainz; o Hygraph resolve o Remote Field `musicBrainzRelease` a partir do `musicBrainzReleaseId` de cada álbum.
+Next.js only talks to the Hygraph GraphQL API. Tracks are not fetched from MusicBrainz in the app. Hygraph resolves the `musicBrainzRelease` Remote Field from each album’s `musicBrainzReleaseId`.
 
 ```text
-Hygraph (CMS + federation MusicBrainz)
+Hygraph (CMS + MusicBrainz federation)
         │ GraphQL
         ▼
 Next.js (App Router, Server Components)
         │
         ▼
-Visitante  (/pt ou /en)
+Visitor  (/pt or /en)
 ```
 
-## Como rodar o projeto
+## How to run the project
 
-Requisitos: Node.js 18.18+ e npm.
+Requirements: Node.js 18.18+ and npm.
 
-1. Clone o repositório e instale as dependências:
+1. Clone the repository and install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Copie o arquivo de ambiente e preencha com o projeto Hygraph (**Project Settings → Access**):
+2. Copy the environment file and fill it with values from your Hygraph project (**Project Settings → Access**):
 
 ```bash
 cp .env.example .env.local
@@ -37,19 +37,19 @@ HYGRAPH_ENDPOINT=
 HYGRAPH_TOKEN=
 ```
 
-- `HYGRAPH_ENDPOINT` é obrigatório (Content API).
-- `HYGRAPH_TOKEN` é opcional se a Public Content API já permitir leitura de conteúdo **PUBLISHED**.
-- Não use o prefixo `NEXT_PUBLIC_` nessas variáveis. O token fica só no servidor.
+- `HYGRAPH_ENDPOINT` is required (Content API).
+- `HYGRAPH_TOKEN` is optional if the Public Content API already allows **PUBLISHED** reads.
+- Do not prefix these variables with `NEXT_PUBLIC_`. The token stays on the server.
 
-3. Suba o servidor de desenvolvimento:
+3. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-4. Abra [http://localhost:3000](http://localhost:3000). A raiz redireciona para `/pt`. Troque o idioma no header para `/en`.
+4. Open [http://localhost:3000](http://localhost:3000). The root URL redirects to `/pt`. Use the header switcher to go to `/en`.
 
-Outros comandos:
+Other commands:
 
 ```bash
 npm run lint
@@ -58,11 +58,11 @@ npm start
 npx tsc --noEmit
 ```
 
-## O que o site mostra
+## What the site shows
 
-- **Home** (`/pt`, `/en`): álbuns com `featured = true` no Hygraph.
-- **Álbum** (`/pt/album/[slug]`): capa, nota, resenha, faixas federadas do MusicBrainz e dados do artista.
+- **Home** (`/pt`, `/en`): albums with `featured = true` in Hygraph.
+- **Album** (`/pt/album/[slug]`): cover, rating, review, federated MusicBrainz tracks, and artist details.
 
-Só conteúdo **publicado** aparece na API pública. Depois de anexar capa ou imagem, publique o Asset e o entry. Sem `musicBrainzReleaseId` publicado, a lista de faixas não carrega.
+Only **published** content appears on the public API. After you attach a cover or image, publish both the Asset and the entry. Without a published `musicBrainzReleaseId`, the tracklist does not load.
 
-Detalhes do schema: [docs/hygraph-schema.md](docs/hygraph-schema.md). Fluxo das queries: [docs/architecture.md](docs/architecture.md).
+Schema details: [docs/hygraph-schema.md](docs/hygraph-schema.md). Query flow: [docs/architecture.md](docs/architecture.md).
