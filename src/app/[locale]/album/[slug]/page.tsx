@@ -86,7 +86,10 @@ export default async function AlbumPage({ params }: AlbumPageProps) {
           <p className={styles.kicker}>{album.artist.name}</p>
           <h1 className={styles.title}>{album.title}</h1>
           <p className={styles.year}>{album.releaseYear}</p>
-          <Rating value={album.rating} />
+          <Rating
+            value={album.rating}
+            label={dictionary.ratingLabel(album.rating)}
+          />
 
           {album.review ? (
             <section className={styles.review}>

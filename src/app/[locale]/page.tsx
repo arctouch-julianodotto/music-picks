@@ -60,6 +60,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 album={album}
                 locale={locale}
                 coverAlt={dictionary.coverAlt(album.title)}
+                ratingLabel={dictionary.ratingLabel(album.rating)}
               />
             ))}
           </div>

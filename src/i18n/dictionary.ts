@@ -22,6 +22,7 @@ export type Dictionary = {
   tracksTitle: string;
   emptyTracks: string;
   discTitle: (position: number, title?: string | null) => string;
+  ratingLabel: (value: number) => string;
 };
 
 const dictionaries: Record<Locale, Dictionary> = {
@@ -52,6 +53,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     tracksTitle: "Faixas",
     emptyTracks: "Nenhuma faixa disponível no MusicBrainz.",
     discTitle: (position, title) => title?.trim() || `Disco ${position}`,
+    ratingLabel: (value) => `${value} de 5 estrelas`,
   },
   en: {
     heroTitle: "A short selection of some of my favorite albums",
@@ -79,6 +81,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     tracksTitle: "Tracks",
     emptyTracks: "No tracks available from MusicBrainz.",
     discTitle: (position, title) => title?.trim() || `Disc ${position}`,
+    ratingLabel: (value) => `${value} out of 5 stars`,
   },
 };
 

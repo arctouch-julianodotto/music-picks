@@ -9,9 +9,15 @@ type AlbumCardProps = {
   album: FeaturedAlbum;
   locale: Locale;
   coverAlt: string;
+  ratingLabel: string;
 };
 
-export function AlbumCard({ album, locale, coverAlt }: AlbumCardProps) {
+export function AlbumCard({
+  album,
+  locale,
+  coverAlt,
+  ratingLabel,
+}: AlbumCardProps) {
   return (
     <article className={styles.card}>
       <Link className={styles.link} href={`/${locale}/album/${album.slug}`}>
@@ -35,7 +41,7 @@ export function AlbumCard({ album, locale, coverAlt }: AlbumCardProps) {
             <span className={styles.sep} aria-hidden="true">
               —
             </span>
-            <Rating value={album.rating} />
+            <Rating value={album.rating} label={ratingLabel} />
           </div>
 
           <p className={styles.artist}>{album.artist.name}</p>
