@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Music Picks
 
-## Getting Started
+A small Next.js frontend for the **Hygraph Developer Certification: Fundamentals**.
 
-First, run the development server:
+It shows a short editorial list of albums stored in Hygraph. Hygraph is the only content source.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Certification Goals
+
+This project demonstrates:
+
+- a Hygraph schema with `Artist` and `Album` models;
+- a 1:N reference from Artist to Album;
+- GraphQL queries against the Hygraph Content API;
+- GraphQL field selection (each page asks only for the fields it renders);
+- DRAFT vs PUBLISHED as Hygraph content stages, with the public site reading PUBLISHED content;
+- Next.js App Router Server Components consuming Hygraph;
+- environment variables kept on the server.
+
+## Architecture
+
+```text
+Hygraph
+   │
+   │ GraphQL
+   ▼
+Next.js
+   │
+   ▼
+User
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Hygraph owns artists, albums, covers, reviews, ratings, and featured state. The site does not call a third-party music API.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Hygraph Models
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+Artist
+Album
+```
 
-## Learn More
+```text
+Artist 1 → N Album
+```
 
-To learn more about Next.js, take a look at the following resources:
+See [docs/hygraph-schema.md](docs/hygraph-schema.md) for fields and [docs/architecture.md](docs/architecture.md) for the request flow.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Copy `.env.example` to `.env.local` and fill in the values from your Hygraph project.
 
-## Deploy on Vercel
+```env
+HYGRAPH_ENDPOINT=
+HYGRAPH_TOKEN=
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `HYGRAPH_ENDPOINT` is required for content.
+- `HYGRAPH_TOKEN` is optional if Public Content API permissions allow PUBLISHED reads.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Never prefix private credentials with `NEXT_PUBLIC_`.
+
+## Running locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+Useful scripts already in the repository:
+
+```bash
+npm run lint
+npm run build
+npx tsc --noEmit
+```
+
+## Routes
+
+```text
+/
+/album/[slug]
+```
+
+- `/` shows featured albums (`featured = true` in Hygraph).
+- `/album/[slug]` shows the album, the related artist, and Rich Text review/bio.

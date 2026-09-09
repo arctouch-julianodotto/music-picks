@@ -1,0 +1,27 @@
+.shell {
+  width: min(1080px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 4rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+
+.brand {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.footer {
+  margin-top: 4rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+}

@@ -1,0 +1,76 @@
+.main {
+  display: grid;
+  gap: 3rem;
+}
+
+.album {
+  display: grid;
+  gap: 1.75rem;
+}
+
+@media (min-width: 800px) {
+  .album {
+    grid-template-columns: minmax(240px, 360px) 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+.cover,
+.placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--cover-fallback);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+}
+
+.cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.kicker,
+.year {
+  margin: 0;
+  color: var(--muted);
+}
+
+.kicker {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 0.95;
+}
+
+.review {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.reviewTitle {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.emptyTracks {
+  margin: 0;
+  color: var(--muted);
+}

@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.link {
+  color: var(--muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.link:hover {
+  color: var(--foreground);
+}
+
+.link[aria-current="true"] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sep {
+  color: var(--border);
+  font-size: 0.85rem;
+}
