@@ -53,7 +53,7 @@ export default async function HomePage({ params }: HomePageProps) {
           <h2 id="featured-heading" className={styles.sectionTitle}>
             {dictionary.featuredHeading}
           </h2>
-          <div className={styles.grid}>
+          <div className={styles.list}>
             {albums.map((album) => (
               <AlbumCard
                 key={album.slug}

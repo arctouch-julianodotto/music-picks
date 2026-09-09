@@ -53,5 +53,5 @@ export type Album = {
 
 export type FeaturedAlbum = Pick<
   Album,
-  "title" | "slug" | "releaseYear" | "rating" | "cover" | "artist"
+  "title" | "slug" | "releaseYear" | "rating" | "review" | "cover" | "artist"
 >;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Rating } from "@/components/Rating/Rating";
+import { RichText } from "@/components/RichText/RichText";
 import type { Locale } from "@/i18n/config";
 import type { FeaturedAlbum } from "@/lib/hygraph/types";
 import styles from "./AlbumCard.module.css";
@@ -23,11 +24,27 @@ export function AlbumCard({ album, locale, coverAlt }: AlbumCardProps) {
             <div className={styles.placeholder} aria-hidden="true" />
           )}
         </div>
+
         <div className={styles.body}>
-          <h2 className={styles.title}>{album.title}</h2>
+          <div className={styles.headline}>
+            <h2 className={styles.title}>{album.title}</h2>
+            <span className={styles.sep} aria-hidden="true">
+              —
+            </span>
+            <span className={styles.meta}>{album.releaseYear}</span>
+            <span className={styles.sep} aria-hidden="true">
+              —
+            </span>
+            <Rating value={album.rating} />
+          </div>
+
           <p className={styles.artist}>{album.artist.name}</p>
-          <p className={styles.meta}>{album.releaseYear}</p>
-          <Rating value={album.rating} />
+
+          {album.review ? (
+            <div className={styles.excerpt}>
+              <RichText content={album.review} />
+            </div>
+          ) : null}
         </div>
       </Link>
     </article>

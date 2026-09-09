@@ -8,6 +8,9 @@ const featuredAlbumFields = gql`
   slug
   releaseYear
   rating
+  review {
+    raw
+  }
   cover {
     url
   }
