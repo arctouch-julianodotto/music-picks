@@ -1,86 +1,68 @@
-# Music Picks
+# My Fav Albums
 
-A small Next.js frontend for the **Hygraph Developer Certification: Fundamentals**.
+Frontend em Next.js de uma seleção editorial de álbuns. O conteúdo mora no Hygraph: artistas, álbuns, capas, notas, resenhas e o que aparece em destaque na Home.
 
-It shows a short editorial list of albums stored in Hygraph. Hygraph is the only content source.
+Este repositório é o projeto da **Hygraph Developer Certification**. Ele demonstra schema no Hygraph, relação Artist → Album, Content API GraphQL, estágios DRAFT vs PUBLISHED, localização de campos, e Content Federation com a API REST do MusicBrainz (faixas via Remote Source).
 
-## Certification Goals
-
-This project demonstrates:
-
-- a Hygraph schema with `Artist` and `Album` models;
-- a 1:N reference from Artist to Album;
-- GraphQL queries against the Hygraph Content API;
-- GraphQL field selection (each page asks only for the fields it renders);
-- DRAFT vs PUBLISHED as Hygraph content stages, with the public site reading PUBLISHED content;
-- Next.js App Router Server Components consuming Hygraph;
-- environment variables kept on the server.
-
-## Architecture
+O Next.js só consome o GraphQL do Hygraph. As faixas não vêm de uma chamada direta do app ao MusicBrainz; o Hygraph resolve o Remote Field `musicBrainzRelease` a partir do `musicBrainzReleaseId` de cada álbum.
 
 ```text
-Hygraph
-   │
-   │ GraphQL
-   ▼
-Next.js
-   │
-   ▼
-User
+Hygraph (CMS + federation MusicBrainz)
+        │ GraphQL
+        ▼
+Next.js (App Router, Server Components)
+        │
+        ▼
+Visitante  (/pt ou /en)
 ```
 
-Hygraph owns artists, albums, covers, reviews, ratings, and featured state. The site does not call a third-party music API.
+## Como rodar o projeto
 
-## Hygraph Models
+Requisitos: Node.js 18.18+ e npm.
 
-```text
-Artist
-Album
+1. Clone o repositório e instale as dependências:
+
+```bash
+npm install
 ```
 
-```text
-Artist 1 → N Album
+2. Copie o arquivo de ambiente e preencha com o projeto Hygraph (**Project Settings → Access**):
+
+```bash
+cp .env.example .env.local
 ```
-
-See [docs/hygraph-schema.md](docs/hygraph-schema.md) for fields and [docs/architecture.md](docs/architecture.md) for the request flow.
-
-## Environment Variables
-
-Copy `.env.example` to `.env.local` and fill in the values from your Hygraph project.
 
 ```env
 HYGRAPH_ENDPOINT=
 HYGRAPH_TOKEN=
 ```
 
-- `HYGRAPH_ENDPOINT` is required for content.
-- `HYGRAPH_TOKEN` is optional if Public Content API permissions allow PUBLISHED reads.
+- `HYGRAPH_ENDPOINT` é obrigatório (Content API).
+- `HYGRAPH_TOKEN` é opcional se a Public Content API já permitir leitura de conteúdo **PUBLISHED**.
+- Não use o prefixo `NEXT_PUBLIC_` nessas variáveis. O token fica só no servidor.
 
-Never prefix private credentials with `NEXT_PUBLIC_`.
-
-## Running locally
+3. Suba o servidor de desenvolvimento:
 
 ```bash
-npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+4. Abra [http://localhost:3000](http://localhost:3000). A raiz redireciona para `/pt`. Troque o idioma no header para `/en`.
 
-Useful scripts already in the repository:
+Outros comandos:
 
 ```bash
 npm run lint
 npm run build
+npm start
 npx tsc --noEmit
 ```
 
-## Routes
+## O que o site mostra
 
-```text
-/
-/album/[slug]
-```
+- **Home** (`/pt`, `/en`): álbuns com `featured = true` no Hygraph.
+- **Álbum** (`/pt/album/[slug]`): capa, nota, resenha, faixas federadas do MusicBrainz e dados do artista.
 
-- `/` shows featured albums (`featured = true` in Hygraph).
-- `/album/[slug]` shows the album, the related artist, and Rich Text review/bio.
+Só conteúdo **publicado** aparece na API pública. Depois de anexar capa ou imagem, publique o Asset e o entry. Sem `musicBrainzReleaseId` publicado, a lista de faixas não carrega.
+
+Detalhes do schema: [docs/hygraph-schema.md](docs/hygraph-schema.md). Fluxo das queries: [docs/architecture.md](docs/architecture.md).
